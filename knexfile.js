@@ -1,27 +1,46 @@
+// Update with your config settings.
+
+/**
+ * @type { Object.<string, import("knex").Knex.Config> }
+ */
 module.exports = {
-    developmet: {
-        client: 'postgresql',
-        connection: {
-            host: 'localhost',
-            user: 'your_password',
-            database: 'your_development_database'        }
-    },
-    migrations: {
-        directory: './db/migrations'
-    },
-    seeds: {
-        directory: './db/seeds'
-    }
-},
-testing: {
-    client: 'postgresql',
+
+  development: {
+    client: 'sqlite3',
     connection: {
-        host: 'localhost',
-        user: 'user_name',
-        password: 'your_password',
-        database: 'your_testing_database'
+      filename: './data/maindb.db3'
     },
-    migrations: {
-        directory: './db/migrations'
-    }
+    migrations : {
+      directory : "./data/migrations"
+    },
+    seeds : {
+      directory : "./data/seeds",
+    },
+    pool : {
+      afterCreate : (conn,done) => {
+        conn.run("PRAGMA foreign_key = ON",done)
+      }
+    },
+    useNullAsDefault : true,
+  },
+
+  testing: {
+    client: 'sqlite3',
+    connection: {
+      filename: './data/testdb.db3'
+    },
+    migrations : {
+      directory : "./data/migrations"
+    },
+    seeds : {
+      directory : "./data/seeds",
+    },
+    pool : {
+      afterCreate : (conn,done) => {
+        conn.run("PRAGMA foreign_key = ON",done)
+      }
+    },
+    useNullAsDefault : true,
+  },
+
 };
